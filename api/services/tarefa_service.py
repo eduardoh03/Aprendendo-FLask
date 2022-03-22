@@ -8,3 +8,7 @@ def cadastrar_tarefa(tarefa):
     db.session.add(tarefa_db)
     db.session.commit()
     return tarefa_db
+
+def listar_tarefas():
+    tarefas = tarefa_model.Tarefa.query.all()
+    return tarefas

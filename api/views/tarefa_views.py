@@ -9,7 +9,10 @@ from ..services import tarefa_service
 class TarefaList(Resource):# List é adicionado em metodos que não necessitao de parametros GET e POST
 
     def get(self):
-        return "Ola Mundo"
+        tarefas = tarefa_service.listar_tarefas()
+        #many é necessario porque várias tarefas vão ser passadas pelo Schema
+        ts = tarefa_schemas.TarefaSchema(many=True)
+        return make_response(ts.jsonify(tarefas), 200)
 
     def post(self):
         ts = tarefa_schemas.TarefaSchema()
