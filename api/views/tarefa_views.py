@@ -59,7 +59,11 @@ class TarefaDetail(Resource):  # Detail é adicionado em metodos que necessitao 
             return make_response(ts.jsonify(tarefa_atualizada), 200)
 
     def delete(self, id):
-        pass
+        tarefa = tarefa_service.listar_tarefa_id(id)
+        if tarefa is None:
+            return make_response(jsonify("Tarefa nao encontrada."), 404)
+        tarefa_service.remover_tarefa(tarefa)
+        return make_response(jsonify(""), 204)
 
 
 # CRIADO A ROTA
