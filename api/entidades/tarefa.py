@@ -26,6 +26,6 @@ class Tarefa():
         return self.__data_expiracao
 
     @data_expiracao.setter
-    def titulo(self, data_expiracao):
+    def data_expiracao(self, data_expiracao):
         self.__data_expiracao = data_expiracao
 
