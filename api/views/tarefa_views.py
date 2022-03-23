@@ -41,7 +41,22 @@ class TarefaDetail(Resource):  # Detail é adicionado em metodos que necessitao 
             return make_response(ts.jsonify(tarefa), 200)
 
     def put(self, id):
-        pass
+        tarefa_db = tarefa_service.listar_tarefa_id(id)
+        if tarefa_db is None:
+            return make_response(jsonify("Tarefa nao encontrada."), 404)
+        else:
+            ts = tarefa_schemas.TarefaSchema()
+            validate = ts.validate(request.json)
+            if validate:
+                return make_response(jsonify(validate), 400)
+            else:
+                titulo = request.json["titulo"]
+                descricao = request.json["descricao"]
+                data_expiracao = request.json["data_expiracao"]
+                tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao, data_expiracao=data_expiracao)
+                result = tarefa_service.editar_tarefa(tarefa_db, tarefa_nova)
+                tarefa_atualizada = tarefa_service.listar_tarefa_id(id)
+                return make_response(ts.jsonify(tarefa_atualizada), 200)
 
     def delete(self, id):
         pass
