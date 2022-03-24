@@ -34,7 +34,7 @@ class ProjetoDetail(Resource):  # Detail é adicionado em metodos que necessitao
     def get(self, id):
         projeto = projeto_service.listar_projeto_id(id)
         if projeto is None:
-            return make_response(jsonify("Projeto nao encontrada."), 404)
+            return make_response(jsonify("Projeto nao encontrado."), 404)
         else:
             ps = projeto_schemas.ProjetoSchema()
             return make_response(ps.jsonify(projeto), 200)

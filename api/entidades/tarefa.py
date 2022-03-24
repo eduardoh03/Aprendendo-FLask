@@ -1,9 +1,10 @@
 
 class Tarefa():
-    def __init__(self, titulo, descricao, data_expiracao):
+    def __init__(self, titulo, descricao, data_expiracao, projeto):
         self.__titulo = titulo
         self.__descricao = descricao
         self.__data_expiracao = data_expiracao
+        self.__projeto = projeto
 
     @property
     def titulo(self):
@@ -29,3 +30,10 @@ class Tarefa():
     def data_expiracao(self, data_expiracao):
         self.__data_expiracao = data_expiracao
 
+    @property
+    def projeto(self):
+        return self.__projeto
+
+    @projeto.setter
+    def projeto(self, projeto):
+        self.__projeto = projeto

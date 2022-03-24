@@ -3,7 +3,7 @@ from api import api
 from ..schemas import tarefa_schemas
 from flask import request, make_response, jsonify
 from ..entidades import tarefa
-from ..services import tarefa_service
+from ..services import tarefa_service, projeto_service
 
 
 # A view está responsável por tratar os dados das requisições
@@ -25,7 +25,11 @@ class TarefaList(Resource):  # List é adicionado em metodos que não necessitao
             titulo = request.json["titulo"]
             descricao = request.json["descricao"]
             data_expiracao = request.json["data_expiracao"]
-            tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao, data_expiracao=data_expiracao)
+            projeto = request.json["projeto"]
+            projeto_tarefa = projeto_service.listar_projeto_id(projeto)
+            if projeto_tarefa is None:
+                return make_response(jsonify("Projeto nao encontrado."), 404)
+            tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao, data_expiracao=data_expiracao,projeto=projeto_tarefa)
             result = tarefa_service.cadastrar_tarefa(tarefa_nova)
             return make_response(ts.jsonify(result), 201)
 
@@ -53,7 +57,11 @@ class TarefaDetail(Resource):  # Detail é adicionado em metodos que necessitao 
             titulo = request.json["titulo"]
             descricao = request.json["descricao"]
             data_expiracao = request.json["data_expiracao"]
-            tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao, data_expiracao=data_expiracao)
+            projeto = request.json["projeto"]
+            projeto_tarefa = projeto_service.listar_projeto_id(projeto)
+            if projeto_tarefa is None:
+                return make_response(jsonify("Projeto nao encontrado."), 404)
+            tarefa_nova = tarefa.Tarefa(titulo=titulo, descricao=descricao, data_expiracao=data_expiracao, projeto=projeto_tarefa)
             result = tarefa_service.editar_tarefa(tarefa_db, tarefa_nova)
             tarefa_atualizada = tarefa_service.listar_tarefa_id(id)
             return make_response(ts.jsonify(tarefa_atualizada), 200)

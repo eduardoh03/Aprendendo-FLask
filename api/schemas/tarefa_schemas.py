@@ -6,7 +6,7 @@ from marshmallow import fields
 class TarefaSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = tarefa_model.Tarefa
-        fields = ("id", "titulo", "descricao", "data_expiracao")
+        fields = ("id", "titulo", "descricao", "data_expiracao", "projeto")
         # load_instance = True
 
     titulo = fields.String(required=True)
@@ -15,3 +15,4 @@ class TarefaSchema(ma.SQLAlchemyAutoSchema):
                                                                 "null": "Esse campo nao pode ser nulo.",
                                                                 "validator_failed": "Valor invalido."
                                                                 })
+    projeto = fields.String(required=True)
