@@ -11,8 +11,7 @@ db = SQLAlchemy(app)
 ma = Marshmallow(app)
 migrate = Migrate(app,db)
 
-
 api = Api(app)
 
-from .views import tarefa_views, projeto_views
-from .models import tarefa_model, projeto_model
+from .views import tarefa_views, projeto_views, funcionario_views
+from .models import tarefa_model, projeto_model, funcionario_model
