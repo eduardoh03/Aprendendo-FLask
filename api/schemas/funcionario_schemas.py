@@ -6,8 +6,9 @@ from marshmallow import fields
 class FuncionarioSchema(ma.SQLAlchemyAutoSchema):
     class Meta:
         model = funcionario_model.Funcionario
-        fields = ("id", "nome", "idade")
+        fields = ("id", "nome", "idade", "projetos")
         # load_instance = True
 
     nome = fields.String(required=True)
     descricao = fields.String(required=True)
+    projetos = fields.List(fields.String)
