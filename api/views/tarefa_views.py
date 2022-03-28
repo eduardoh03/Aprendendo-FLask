@@ -4,17 +4,18 @@ from ..schemas import tarefa_schemas
 from flask import request, make_response, jsonify
 from ..entidades import tarefa
 from ..services import tarefa_service, projeto_service
-
+from ..pagination import paginate
+from ..models.tarefa_model import Tarefa
 
 # A view está responsável por tratar os dados das requisições
 
 class TarefaList(Resource):  # List é adicionado em metodos que não necessitao de parametros GET e POST
 
     def get(self):
-        tarefas = tarefa_service.listar_tarefas()
+        # tarefas = tarefa_service.listar_tarefas()
         # many é necessario porque várias tarefas vão ser passadas pelo Schema
         ts = tarefa_schemas.TarefaSchema(many=True)
-        return make_response(ts.jsonify(tarefas), 200)
+        return paginate(Tarefa, ts)
 
     def post(self):
         ts = tarefa_schemas.TarefaSchema()

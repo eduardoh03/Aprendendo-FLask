@@ -4,17 +4,17 @@ from ..schemas import projeto_schemas
 from flask import request, make_response, jsonify
 from ..entidades import projeto
 from ..services import projeto_service
-
-
+from ..pagination import paginate
+from ..models.projeto_model import Projeto
 # A view está responsável por tratar os dados das requisições
 
 class ProjetoList(Resource):  # List é adicionado em metodos que não necessitao de parametros GET e POST
 
     def get(self):
-        projetos = projeto_service.listar_projetos()
+        # projetos = projeto_service.listar_projetos()
         # many é necessario porque várias projetos vão ser passadas pelo Schema
         ps = projeto_schemas.ProjetoSchema(many=True)
-        return make_response(ps.jsonify(projetos), 200)
+        return paginate(Projeto, ps)
 
     def post(self):
         ps = projeto_schemas.ProjetoSchema()

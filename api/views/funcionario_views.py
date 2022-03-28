@@ -4,17 +4,18 @@ from ..schemas import funcionario_schemas
 from flask import request, make_response, jsonify
 from ..entidades import funcionario
 from ..services import funcionario_service
-
+from ..pagination import paginate
+from ..models.funcionario_model import Funcionario
 
 # A view está responsável por tratar os dados das requisições
 
 class FuncionarioList(Resource):  # List é adicionado em metodos que não necessitao de parametros GET e POST
 
     def get(self):
-        funcionarios = funcionario_service.listar_funcionarios()
+        # funcionarios = funcionario_service.listar_funcionarios()
         # many é necessario porque várias funcionarios vão ser passadas pelo Schema
         fs = funcionario_schemas.FuncionarioSchema(many=True)
-        return make_response(fs.jsonify(funcionarios), 200)
+        return paginate(Funcionario, fs)
 
     def post(self):
         fs = funcionario_schemas.FuncionarioSchema()
